@@ -120,12 +120,22 @@ OakRolloverButton* OakCreateCloseButton (NSString* accessibilityLabel)
 {
 	self.activeBackgroundGradient   = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.915 alpha:1] endingColor:[NSColor colorWithCalibratedWhite:0.760 alpha:1]];
 	self.inactiveBackgroundGradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.915 alpha:1] endingColor:[NSColor colorWithCalibratedWhite:0.915 alpha:1]];
+
+	if (@available(macOS 10.14, *)) {
+		self.activeBackgroundGradient = [[NSGradient alloc] initWithStartingColor:[NSColor clearColor] endingColor:[NSColor clearColor]];
+		self.inactiveBackgroundGradient = [[NSGradient alloc] initWithStartingColor:[NSColor clearColor] endingColor:[NSColor clearColor]];
+	}
 }
 
 - (void)setupStatusBarBackground
 {
 	self.activeBackgroundGradient   = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:1 alpha:0.68], 0.0, [NSColor colorWithCalibratedWhite:1 alpha:0.5], 0.0416, [NSColor colorWithCalibratedWhite:1 alpha:0], 1.0, nil];
 	self.inactiveBackgroundGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:1 alpha:0.68], 0.0, [NSColor colorWithCalibratedWhite:1 alpha:0.5], 0.0416, [NSColor colorWithCalibratedWhite:1 alpha:0], 1.0, nil];
+
+	if (@available(macOS 10.14, *)) {
+		self.activeBackgroundGradient = [[NSGradient alloc] initWithStartingColor:[NSColor clearColor] endingColor:[NSColor clearColor]];
+		self.inactiveBackgroundGradient = [[NSGradient alloc] initWithStartingColor:[NSColor clearColor] endingColor:[NSColor clearColor]];
+	}
 }
 
 - (void)viewWillMoveToWindow:(NSWindow*)newWindow
