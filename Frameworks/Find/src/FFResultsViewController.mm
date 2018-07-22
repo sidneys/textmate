@@ -148,9 +148,9 @@ static FFResultNode* PreviousNode (FFResultNode* node)
 		NSMutableAttributedString* str = [res mutableCopy];
 		[str enumerateAttributesInRange:NSMakeRange(0, str.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary* attrs, NSRange range, BOOL* stop){
 			if(attrs[NSBackgroundColorAttributeName] != nil)
-				[str addAttribute:NSBackgroundColorAttributeName value:[NSColor tmMatchedTextSelectedBackgroundColor] range:range];
+				[str addAttribute:NSBackgroundColorAttributeName value:[NSColor findHighlightColor] range:range];
 			if(attrs[NSUnderlineColorAttributeName] != nil)
-				[str addAttribute:NSUnderlineColorAttributeName value:[NSColor tmMatchedTextSelectedUnderlineColor] range:range];
+				[str addAttribute:NSUnderlineColorAttributeName value:[NSColor findHighlightColor] range:range];
 		}];
 		[str addAttribute:NSForegroundColorAttributeName value:[NSColor alternateSelectedControlTextColor] range:NSMakeRange(0, [str length])];
 		res = str;
@@ -303,8 +303,8 @@ static FFResultNode* PreviousNode (FFResultNode* node)
 		[label sizeToFit];
 		CGFloat lineHeight = std::max(NSHeight(label.frame), ceil(_searchResultsFont.ascender) + ceil(fabs(_searchResultsFont.descender)) + ceil(_searchResultsFont.leading));
 
-		_topDivider    = OakCreateHorizontalLine([NSColor colorWithCalibratedWhite:0.500 alpha:1]);
-		_bottomDivider = OakCreateHorizontalLine([NSColor colorWithCalibratedWhite:0.500 alpha:1]);
+		_topDivider    = OakCreateHorizontalLine([NSColor gridColor]);
+		_bottomDivider = OakCreateHorizontalLine([NSColor gridColor]);
 
 		_outlineView = [[NSOutlineView alloc] initWithFrame:NSZeroRect];
 		OakSetAccessibilityLabel(_outlineView, @"Results");

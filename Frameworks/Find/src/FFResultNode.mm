@@ -80,7 +80,7 @@ static NSAttributedString* PathComponentString (std::string const& path, std::st
 	string_builder_t builder(NSLineBreakByTruncatingMiddle);
 	builder.push_style(@{
 		NSFontAttributeName            : font,
-		NSForegroundColorAttributeName : [NSColor darkGrayColor]
+		NSForegroundColorAttributeName : [NSColor headerTextColor]
 	});
 	builder.append(to_ns(text::join(std::vector<std::string>(components.begin(), components.end()), " ‣ ")));
 	builder.append(to_ns((path::is_absolute(path) ? path::display_name(path) : path)), NSBoldFontMask);
@@ -98,7 +98,7 @@ static void append (string_builder_t& dst, std::string const& src, size_t from, 
 			if(src[i] == '\t')
 				dst.append(@"\u2003");
 			else if(src[i] == '\r')
-				dst.append(@"<CR>", @{ NSForegroundColorAttributeName : [NSColor lightGrayColor] });
+				dst.append(@"<CR>", @{ NSForegroundColorAttributeName : [NSColor labelColor] });
 			begin = i+1;
 		}
 	}
@@ -109,16 +109,16 @@ static NSAttributedString* AttributedStringForMatch (std::string const& text, si
 {
 	NSFontTraitMask matchFontTraits = NSBoldFontMask;
 	NSDictionary* matchAttributes = @{
-		NSForegroundColorAttributeName : [NSColor blackColor],
-		NSBackgroundColorAttributeName : [NSColor tmMatchedTextBackgroundColor],
+		NSForegroundColorAttributeName : [NSColor selectedTextColor],
+		NSBackgroundColorAttributeName : [NSColor selectedTextBackgroundColor],
 		NSUnderlineStyleAttributeName  : @(NSUnderlineStyleSingle),
-		NSUnderlineColorAttributeName  : [NSColor tmMatchedTextUnderlineColor],
+		NSUnderlineColorAttributeName  : [NSColor selectedTextBackgroundColor],
 	};
 
 	string_builder_t builder(NSLineBreakByTruncatingTail);
 	builder.push_style(@{
 		NSFontAttributeName            : font,
-		NSForegroundColorAttributeName : [NSColor darkGrayColor]
+		NSForegroundColorAttributeName : [NSColor labelColor]
 	});
 
 	// Ensure monospaced digits for the line number prefix
@@ -334,7 +334,7 @@ static NSAttributedString* AttributedStringForMatch (std::string const& text, si
 		string_builder_t builder(NSLineBreakByTruncatingTail);
 		builder.append(to_ns(text::format("%zu-%zu: Range is not valid UTF-8, please contact: https://macromates.com/support", m.first, m.last)), @{
 			NSFontAttributeName            : font,
-			NSForegroundColorAttributeName : [NSColor darkGrayColor]
+			NSForegroundColorAttributeName : [NSColor labelColor]
 		});
 		return builder.attributed_string();
 	}
