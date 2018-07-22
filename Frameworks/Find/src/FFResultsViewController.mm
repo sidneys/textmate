@@ -237,7 +237,7 @@ static FFResultNode* PreviousNode (FFResultNode* node)
 			return;
 
 		NSRect rect = NSUnionRect(self.imageView.bounds, NSMakeRect(0, 0, 16, 16));
-		NSColor* color = [NSColor grayColor];
+		NSColor* color = [NSColor labelColor];
 
 		NSImage* image = [[NSImage alloc] initWithSize:rect.size];
 		[image lockFocus];

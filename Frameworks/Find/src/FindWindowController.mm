@@ -814,8 +814,8 @@ static NSButton* OakCreateStopSearchButton ()
 	if(OakIsEmptyString(aString))
 		return @" ";
 
-	static NSAttributedString* const lineJoiner = [[NSAttributedString alloc] initWithString:@"¬" attributes:@{ NSForegroundColorAttributeName : [NSColor lightGrayColor] }];
-	static NSAttributedString* const tabJoiner  = [[NSAttributedString alloc] initWithString:@"‣" attributes:@{ NSForegroundColorAttributeName : [NSColor lightGrayColor] }];
+	static NSAttributedString* const lineJoiner = [[NSAttributedString alloc] initWithString:@"¬" attributes:@{ NSForegroundColorAttributeName : [NSColor labelColor] }];
+	static NSAttributedString* const tabJoiner  = [[NSAttributedString alloc] initWithString:@"‣" attributes:@{ NSForegroundColorAttributeName : [NSColor labelColor] }];
 
 	NSMutableAttributedString* res = [[NSMutableAttributedString alloc] init];
 
@@ -837,7 +837,7 @@ static NSButton* OakCreateStopSearchButton ()
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
 	NSDictionary* globalAttrs = @{
 		NSParagraphStyleAttributeName  : paragraphStyle,
-		NSForegroundColorAttributeName : [NSColor textColor],
+		NSForegroundColorAttributeName : [NSColor labelColor],
 		NSFontAttributeName            : OakStatusBarFont(),
 	};
 	[res addAttributes:globalAttrs range:NSMakeRange(0, [[res string] length])];
