@@ -198,16 +198,46 @@ static NSString* kUserDefaultsTabItemLineBreakStyleKey = @"tabItemLineBreakStyle
 	aButton.inactiveRegularImage  = images[@"IW_normal"];
 	aButton.inactivePressedImage  = images[@"IW_pressed"];
 	aButton.inactiveRolloverImage = images[@"IW_rollover"];
+
+	if (@available(macOS 10.14, *)) {
+		[[aButton cell] setBackgroundStyle:NSBackgroundStyleNormal];
+
+		aButton.regularImage  = [NSImage imageNamed:@"Transparent"];
+		aButton.pressedImage  = [NSImage imageNamed:@"Transparent"];
+		aButton.rolloverImage = [NSImage imageNamed:@"Transparent"];
+		aButton.inactiveRegularImage  = [NSImage imageNamed:@"Transparent"];
+		aButton.inactivePressedImage  = [NSImage imageNamed:@"Transparent"];
+		aButton.inactiveRolloverImage = [NSImage imageNamed:@"Transparent"];
+
+		NSVisualEffectView *effects = [[NSVisualEffectView alloc] initWithFrame:[aButton bounds]];
+		[effects setBlendingMode:NSVisualEffectBlendingModeWithinWindow];
+		[effects setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+		[effects setState:NSVisualEffectStateActive];
+		[effects setMaterial:NSVisualEffectMaterialTitlebar];
+		[aButton addSubview:effects positioned:NSWindowBelow relativeTo:nil];
+	}
 }
 
 - (void)updateView:(OakBackgroundFillView*)aView forState:(NSString*)aState
 {
 	aView.activeBackgroundImage   = _images[aState][@"AW_normal"];
 	aView.inactiveBackgroundImage = _images[aState][@"IW_normal"];
+
+	if (@available(macOS 10.14, *)) {
+		aView.activeBackgroundImage   = [NSImage imageNamed:@"Transparent"];
+		aView.inactiveBackgroundImage = [NSImage imageNamed:@"Transparent"];
+
+		NSVisualEffectView *effects = [[NSVisualEffectView alloc] initWithFrame:[aView bounds]];
+		[effects setBlendingMode:NSVisualEffectBlendingModeWithinWindow];
+		[effects setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+		[effects setState:NSVisualEffectStateActive];
+		[aView addSubview:effects positioned:NSWindowBelow relativeTo:nil];
+		[effects setMaterial:NSVisualEffectMaterialTitlebar];
+	}
 }
 
 // ================
-// = Tab Bar View =
+// = Tab Bar View =s
 // ================
 
 - (void)setupTabBarView:(OakBackgroundFillView*)aView
