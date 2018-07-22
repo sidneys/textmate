@@ -54,6 +54,17 @@ NSButton* OakCreateClickableStatusBar ()
 	self.myIntrinsicContentSize = NSMakeSize(NSViewNoInstrinsicMetric, MAX(22, MIN([cell cellSizeForBounds:NSMakeRect(0, 0, NSWidth([self bounds]), CGFLOAT_MAX)].height, 225)));
 	[self invalidateIntrinsicContentSize];
 }
+
+-(BOOL) becomeFirstResponder
+{
+	BOOL success = [super becomeFirstResponder];
+	if(success) {
+		NSTextView* textView = (NSTextView*) [self currentEditor];
+		[textView setDrawsBackground:YES];
+		[textView setBackgroundColor:[NSColor whiteColor]];
+	}
+	return success;
+}
 @end
 
 static OakAutoSizingTextField* OakCreateTextField (id <NSTextFieldDelegate> delegate, NSObject* accessibilityLabel, NSString* grammarName)
