@@ -7,7 +7,7 @@ static NSButton* OakCreateImageButton (NSImage* image)
 {
 	NSButton* res = [NSButton new];
 	[[res cell] setBackgroundStyle:NSBackgroundStyleRaised];
-	[res setButtonType:NSMomentaryChangeButton];
+	[res setButtonType:NSButtonTypeMomentaryChange];
 	[res setBordered:NO];
 	[res setImage:image];
 	[res setImagePosition:NSImageOnly];

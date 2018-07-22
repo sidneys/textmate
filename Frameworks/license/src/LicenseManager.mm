@@ -301,8 +301,8 @@ static NSString* const kAddLicenseViewIdentifier = @"org.TextMate.addLicenseButt
 
 	addLicenseButton.showsBorderOnlyWhileMouseInside = YES;
 	addLicenseButton.font       = [NSFont messageFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
-	addLicenseButton.bezelStyle = NSRecessedBezelStyle;
-	addLicenseButton.buttonType = NSMomentaryPushInButton;
+	addLicenseButton.bezelStyle = NSBezelStyleRecessed;
+	addLicenseButton.buttonType = NSButtonTypeMomentaryPushIn;
 	addLicenseButton.title      = @"Add License";
 	addLicenseButton.action     = @selector(showAddLicensePopover:);
 	addLicenseButton.target     = self;

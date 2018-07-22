@@ -43,7 +43,7 @@ NSButton* OakCreateButton (NSString* label, NSBezelStyle bezel)
 	[res setContentHuggingPriority:NSLayoutPriorityDefaultHigh forOrientation:NSLayoutConstraintOrientationHorizontal];
 	[res setContentHuggingPriority:NSLayoutPriorityDefaultHigh forOrientation:NSLayoutConstraintOrientationVertical];
 	res.bezelStyle = bezel;
-	res.buttonType = NSMomentaryPushInButton;
+	res.buttonType = NSButtonTypeMomentaryPushIn;
 	res.font       = OakControlFont();
 	res.title      = label;
 	return res;

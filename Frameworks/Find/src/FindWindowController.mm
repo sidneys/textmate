@@ -81,8 +81,8 @@ static OakAutoSizingTextField* OakCreateTextField (id <NSTextFieldDelegate> dele
 static NSButton* OakCreateHistoryButton (NSString* toolTip)
 {
 	NSButton* res = [[NSButton alloc] initWithFrame:NSZeroRect];
-	res.bezelStyle = NSRoundedDisclosureBezelStyle;
-	res.buttonType = NSMomentaryLightButton;
+	res.bezelStyle = NSBezelStyleRoundedDisclosure;
+	res.buttonType = NSButtonTypeMomentaryLight;
 	res.title      = @"";
 	res.toolTip    = toolTip;
 	OakSetAccessibilityLabel(res, toolTip);
@@ -93,7 +93,7 @@ static NSButton* OakCreateHistoryButton (NSString* toolTip)
 static NSProgressIndicator* OakCreateProgressIndicator ()
 {
 	NSProgressIndicator* res = [[NSProgressIndicator alloc] initWithFrame:NSZeroRect];
-	res.style                = NSProgressIndicatorSpinningStyle;
+	res.style                = NSProgressIndicatorStyleSpinning;
 	res.controlSize          = NSControlSizeSmall;
 	res.displayedWhenStopped = NO;
 	return res;
@@ -102,7 +102,7 @@ static NSProgressIndicator* OakCreateProgressIndicator ()
 static NSButton* OakCreateStopSearchButton ()
 {
 	NSButton* res = [[NSButton alloc] initWithFrame:NSZeroRect];
-	res.buttonType    = NSMomentaryChangeButton;
+	res.buttonType    = NSButtonTypeMomentaryChange;
 	res.bordered      = NO;
 	res.image         = [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
 	res.imagePosition = NSImageOnly;
@@ -186,7 +186,7 @@ static NSButton* OakCreateStopSearchButton ()
 		self.findTextField             = OakCreateTextField(self, self.findLabel, @"source.regexp.oniguruma");
 		self.findStringFormatter       = _findTextField.formatter;
 		self.findHistoryButton         = OakCreateHistoryButton(@"Show Find History");
-		self.countButton               = OakCreateButton(@"Σ", NSSmallSquareBezelStyle);
+		self.countButton               = OakCreateButton(@"Σ", NSBezelStyleSmallSquare);
 
 		self.countButton.toolTip = @"Show Results Count";
 		OakSetAccessibilityLabel(self.countButton, self.countButton.toolTip);
@@ -303,7 +303,7 @@ static NSButton* OakCreateStopSearchButton ()
 		[self replaceClipboardDidChange:nil];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:[NSUserDefaults standardUserDefaults]];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findClipboardDidChange:) name:OakPasteboardDidChangeNotification object:[OakPasteboard pasteboardWithName:NSFindPboard]];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findClipboardDidChange:) name:OakPasteboardDidChangeNotification object:[OakPasteboard pasteboardWithName:NSPasteboardNameFind]];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(replaceClipboardDidChange:) name:OakPasteboardDidChangeNotification object:[OakPasteboard pasteboardWithName:OakReplacePboard]];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewWillPerformFindOperation:) name:@"OakTextViewWillPerformFindOperation" object:nil];
 
@@ -473,7 +473,7 @@ static NSButton* OakCreateStopSearchButton ()
 
 - (void)findClipboardDidChange:(NSNotification*)aNotification
 {
-	OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSFindPboard] current];
+	OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSPasteboardNameFind] current];
 	self.findString        = entry.string;
 	self.regularExpression = entry.regularExpression;
 	self.ignoreWhitespace  = entry.ignoreWhitespace;
@@ -543,7 +543,7 @@ static NSButton* OakCreateStopSearchButton ()
 
 	if(OakNotEmptyString(_findString))
 	{
-		OakPasteboardEntry* oldEntry = [[OakPasteboard pasteboardWithName:NSFindPboard] current];
+		OakPasteboardEntry* oldEntry = [[OakPasteboard pasteboardWithName:NSPasteboardNameFind] current];
 		if(oldEntry && [oldEntry.string isEqualToString:_findString])
 		{
 			if(![oldEntry.options isEqualToDictionary:newOptions])
@@ -552,7 +552,7 @@ static NSButton* OakCreateStopSearchButton ()
 		}
 		else
 		{
-			[[OakPasteboard pasteboardWithName:NSFindPboard] addEntryWithString:_findString andOptions:newOptions];
+			[[OakPasteboard pasteboardWithName:NSPasteboardNameFind] addEntryWithString:_findString andOptions:newOptions];
 		}
 	}
 
@@ -698,7 +698,7 @@ static NSButton* OakCreateStopSearchButton ()
 - (IBAction)showFindHistory:(id)sender
 {
 	if(![[[OakPasteboardSelector sharedInstance] window] isVisible])
-		[[OakPasteboard pasteboardWithName:NSFindPboard] selectItemForControl:self.findTextField];
+		[[OakPasteboard pasteboardWithName:NSPasteboardNameFind] selectItemForControl:self.findTextField];
 	// if the panel is visible it will automatically be hidden due to the mouse click
 }
 
@@ -1038,13 +1038,13 @@ static NSButton* OakCreateStopSearchButton ()
 {
 	BOOL res = YES;
 	if(aMenuItem.action == @selector(toggleSearchHiddenFolders:))
-		[aMenuItem setState:self.searchHiddenFolders ? NSOnState : NSOffState];
+		[aMenuItem setState:self.searchHiddenFolders ? NSControlStateValueOn : NSControlStateValueOff];
 	else if(aMenuItem.action == @selector(toggleSearchFolderLinks:))
-		[aMenuItem setState:self.searchFolderLinks ? NSOnState : NSOffState];
+		[aMenuItem setState:self.searchFolderLinks ? NSControlStateValueOn : NSControlStateValueOff];
 	else if(aMenuItem.action == @selector(toggleSearchFileLinks:))
-		[aMenuItem setState:self.searchFileLinks ? NSOnState : NSOffState];
+		[aMenuItem setState:self.searchFileLinks ? NSControlStateValueOn : NSControlStateValueOff];
 	else if(aMenuItem.action == @selector(toggleSearchBinaryFiles:))
-		[aMenuItem setState:self.searchBinaryFiles ? NSOnState : NSOffState];
+		[aMenuItem setState:self.searchBinaryFiles ? NSControlStateValueOn : NSControlStateValueOff];
 	else if(aMenuItem.action == @selector(goToParentFolder:))
 		res = self.searchFolder != nil || _searchTarget == FFSearchTargetFileBrowserItems && CommonAncestor(_fileBrowserItems);
 	return res;

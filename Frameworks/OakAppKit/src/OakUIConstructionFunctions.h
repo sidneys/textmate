@@ -18,7 +18,7 @@ PUBLIC NSFont* OakControlFont ();
 
 PUBLIC NSTextField* OakCreateLabel (NSString* label = @"", NSFont* font = nil, NSTextAlignment alignment = NSTextAlignmentLeft, NSLineBreakMode lineBreakMode = NSLineBreakByTruncatingMiddle);
 PUBLIC NSButton* OakCreateCheckBox (NSString* label);
-PUBLIC NSButton* OakCreateButton (NSString* label, NSBezelStyle bezel = NSRoundedBezelStyle);
+PUBLIC NSButton* OakCreateButton (NSString* label, NSBezelStyle bezel = NSBezelStyleRounded);
 PUBLIC NSPopUpButton* OakCreatePopUpButton (BOOL pullsDown = NO, NSString* initialItemTitle = nil, NSObject* accessibilityLabel = nil);
 PUBLIC NSPopUpButton* OakCreateActionPopUpButton (BOOL bordered = NO);
 PUBLIC NSPopUpButton* OakCreateStatusBarPopUpButton (NSString* initialItemTitle = nil, NSObject* accessibilityLabel = nil);

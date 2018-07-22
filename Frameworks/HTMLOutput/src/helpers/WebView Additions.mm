@@ -32,7 +32,7 @@
 - (IBAction)copySelectionToFindPboard:(id)sender
 {
 	if(NSString* str = [self selection])
-			[[OakPasteboard pasteboardWithName:NSFindPboard] addEntryWithString:str];
+			[[OakPasteboard pasteboardWithName:NSPasteboardNameFind] addEntryWithString:str];
 	else	NSBeep();
 }
 
@@ -64,14 +64,14 @@
 
 - (IBAction)findNext:(id)sender
 {
-	OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSFindPboard] current];
+	OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSPasteboardNameFind] current];
 	if(OakNotEmptyString(entry.string))
 		[self searchFor:entry.string direction:YES caseSensitive:![[NSUserDefaults standardUserDefaults] boolForKey:kUserDefaultsFindIgnoreCase] wrap:[[NSUserDefaults standardUserDefaults] boolForKey:kUserDefaultsFindWrapAround]];
 }
 
 - (IBAction)findPrevious:(id)sender
 {
-	OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSFindPboard] current];
+	OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSPasteboardNameFind] current];
 	if(OakNotEmptyString(entry.string))
 		[self searchFor:entry.string direction:NO caseSensitive:![[NSUserDefaults standardUserDefaults] boolForKey:kUserDefaultsFindIgnoreCase] wrap:[[NSUserDefaults standardUserDefaults] boolForKey:kUserDefaultsFindWrapAround]];
 }

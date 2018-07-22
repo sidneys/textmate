@@ -354,7 +354,7 @@ static NSUInteger const kOakSourceIndexFavorites      = 1;
 {
 	BOOL activate = YES;
 	if([item action] == @selector(takeSourceIndexFrom:))
-		[item setState:[item tag] == self.sourceIndex ? NSOnState : NSOffState];
+		[item setState:[item tag] == self.sourceIndex ? NSControlStateValueOn : NSControlStateValueOff];
 	return activate;
 }
 

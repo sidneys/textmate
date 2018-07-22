@@ -37,7 +37,7 @@ struct oak_pasteboard_t : clipboard_t
 	oak_pasteboard_t (NSString* pboardName)
 	{
 		pasteboard         = [OakPasteboard pasteboardWithName:pboardName];
-		includeFindOptions = [pboardName isEqualToString:NSFindPboard];
+		includeFindOptions = [pboardName isEqualToString:NSPasteboardNameFind];
 	}
 
 	bool empty () const                     { return false; }

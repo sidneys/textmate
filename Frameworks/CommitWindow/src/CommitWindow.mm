@@ -150,29 +150,29 @@ static void* kOakCommitWindowIncludeItemBinding = &kOakCommitWindowIncludeItemBi
 		self.window.delegate          = self;
 		self.window.frameAutosaveName = @"Commit Window";
 
-		_commitButton = OakCreateButton([self commitButtonTitle], NSRoundedBezelStyle);
+		_commitButton = OakCreateButton([self commitButtonTitle], NSBezelStyleRounded);
 		_commitButton.action                    = @selector(performCommit:);
 		_commitButton.keyEquivalent             = @"\r";
 		_commitButton.keyEquivalentModifierMask = NSEventModifierFlagCommand;
 		_commitButton.target                    = self;
 
-		_cancelButton = OakCreateButton(@"Cancel", NSRoundedBezelStyle);
+		_cancelButton = OakCreateButton(@"Cancel", NSBezelStyleRounded);
 		_cancelButton.action                    = @selector(cancel:);
 		_cancelButton.keyEquivalent             = @".";
 		_cancelButton.keyEquivalentModifierMask = NSEventModifierFlagCommand;
 		_cancelButton.target                    = self;
 
 		_showTableButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-		_showTableButton.buttonType = NSOnOffButton;
-		_showTableButton.bezelStyle = NSRoundedDisclosureBezelStyle;
+		_showTableButton.buttonType = NSButtonTypeOnOff;
+		_showTableButton.bezelStyle = NSBezelStyleRoundedDisclosure;
 		_showTableButton.title = @"";
 		_showTableButton.action = @selector(toggleTableView:);
-		_showTableButton.state = _showsTableView ? NSOnState : NSOffState;
+		_showTableButton.state = _showsTableView ? NSControlStateValueOn : NSControlStateValueOff;
 
 		_previousCommitMessagesPopUpButton = [NSPopUpButton new];
 		_previousCommitMessagesPopUpButton.bordered   = YES;
 		_previousCommitMessagesPopUpButton.pullsDown  = YES;
-		_previousCommitMessagesPopUpButton.bezelStyle = NSTexturedRoundedBezelStyle;
+		_previousCommitMessagesPopUpButton.bezelStyle = NSBezelStyleTexturedRounded;
 		[self setupPreviousCommitMessagesMenu];
 
 		_topDocumentViewDivider    = OakCreateHorizontalLine([NSColor grayColor]);
@@ -359,7 +359,7 @@ static void* kOakCommitWindowIncludeItemBinding = &kOakCommitWindowIncludeItemBi
 	_bottomScrollViewDivider = OakCreateHorizontalLine([NSColor grayColor]);
 
 	_actionPopUpButton = OakCreateActionPopUpButton(YES);
-	_actionPopUpButton.bezelStyle = NSTexturedRoundedBezelStyle;
+	_actionPopUpButton.bezelStyle = NSBezelStyleTexturedRounded;
 	_actionPopUpButton.menu.delegate = self;
 
 	OakAddAutoLayoutViewsToSuperview(@[ _topScrollViewDivider, _scrollView, _bottomScrollViewDivider, _actionPopUpButton ], contentView);

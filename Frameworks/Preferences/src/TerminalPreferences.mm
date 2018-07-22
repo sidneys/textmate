@@ -212,7 +212,7 @@ static bool uninstall_mate (std::string const& path)
 
 	[installPathPopUp setEnabled:isInstalled ? NO : YES];
 	[installButton setAction:isInstalled ? @selector(performUninstallMate:) : @selector(performInstallMate:)];
-	[installButton setState:isInstalled ? NSOnState : NSOffState];
+	[installButton setState:isInstalled ? NSControlStateValueOn : NSControlStateValueOff];
 }
 
 - (void)loadView

@@ -155,7 +155,7 @@ static NSString* const OakTabItemPasteboardType = @"com.macromates.TextMate.tabI
 	[[_addTabButton cell] setBackgroundStyle:NSBackgroundStyleRaised];
 	_addTabButton.image      = [NSImage imageNamed:NSImageNameAddTemplate];
 	_addTabButton.bordered   = NO;
-	_addTabButton.buttonType = NSMomentaryChangeButton;
+	_addTabButton.buttonType = NSButtonTypeMomentaryChange;
 	_addTabButton.toolTip    = @"Create new tab";
 	_addTabButton.action     = @selector(_newTab:);
 	_addTabButton.target     = self;
@@ -803,7 +803,7 @@ static NSString* const OakTabItemPasteboardType = @"com.macromates.TextMate.tabI
 		}
 
 		if(tabItem == _overflowTabItem)
-			[item setState:NSOnState];
+			[item setState:NSControlStateValueOn];
 		else if(tabItem.isModified)
 			[item setModifiedState:YES];
 	}

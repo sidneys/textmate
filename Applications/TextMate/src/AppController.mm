@@ -783,7 +783,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 	if([item action] == @selector(toggleFindOption:))
 	{
 		BOOL active = NO;
-		if(OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSFindPboard] current])
+		if(OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSPasteboardNameFind] current])
 		{
 			switch([item tag])
 			{
@@ -793,7 +793,7 @@ BOOL HasDocumentWindow (NSArray* windows)
 				case find::ignore_whitespace:  active = [entry ignoreWhitespace];  enabled = ![entry regularExpression]; break;
 				case find::wrap_around:        active = [[NSUserDefaults standardUserDefaults] boolForKey:kUserDefaultsFindWrapAround]; break;
 			}
-			[item setState:(active ? NSOnState : NSOffState)];
+			[item setState:(active ? NSControlStateValueOn : NSControlStateValueOff)];
 		}
 		else
 		{

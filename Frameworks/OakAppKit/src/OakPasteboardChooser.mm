@@ -89,7 +89,7 @@ static NSMutableDictionary* SharedChoosers;
 
 		NSString* windowTitle = @"Clipboard History";
 		NSString* actionName  = @"Paste";
-		if([_pasteboard isEqual:[OakPasteboard pasteboardWithName:NSFindPboard]])
+		if([_pasteboard isEqual:[OakPasteboard pasteboardWithName:NSPasteboardNameFind]])
 		{
 			windowTitle = @"Find History";
 			actionName  = @"Find Next";
@@ -145,9 +145,9 @@ static NSMutableDictionary* SharedChoosers;
 		_arrayController.fetchPredicate               = [NSPredicate predicateWithFormat:@"pasteboard == %@", _pasteboard];
 		_arrayController.sortDescriptors              = @[ [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO] ];
 
-		NSButton* deleteButton   = OakCreateButton(@"Delete", NSTexturedRoundedBezelStyle);
-		NSButton* clearAllButton = OakCreateButton(@"Clear History", NSTexturedRoundedBezelStyle);
-		NSButton* actionButton   = OakCreateButton(actionName, NSTexturedRoundedBezelStyle);
+		NSButton* deleteButton   = OakCreateButton(@"Delete", NSBezelStyleTexturedRounded);
+		NSButton* clearAllButton = OakCreateButton(@"Clear History", NSBezelStyleTexturedRounded);
+		NSButton* actionButton   = OakCreateButton(actionName, NSBezelStyleTexturedRounded);
 
 		deleteButton.action   = @selector(deleteForward:);
 		clearAllButton.action = @selector(clearAll:);

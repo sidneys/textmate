@@ -214,7 +214,7 @@ static NSButton* OakCreateImageToggleButton (NSImage* image, NSObject* accessibi
 
 	for(NSMenuItem* item in grammarMenu.itemArray)
 	{
-		if([item state] == NSOnState)
+		if([item state] == NSControlStateValueOn)
 			[self.grammarPopUp selectItem:item];
 	}
 }

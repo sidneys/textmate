@@ -763,7 +763,7 @@ static NSMutableDictionary* DictionaryForPropertyList (plist::dictionary_t const
 	{
 		NSMenuItem* item = [self createMenuItemForCxxPath:path];
 		item.title = [[NSString stringWithCxxString:path] stringByAbbreviatingWithTildeInPath];
-		item.state = NSOffState;
+		item.state = NSControlStateValueOff;
 		[menu addItem:item];
 	}
 	return YES;

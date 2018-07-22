@@ -169,7 +169,7 @@ static constexpr CGFloat LabelNameHeight = 15;
 - (NSDictionary*)labelAttributes
 {
 	NSMutableParagraphStyle* style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[style setAlignment:NSCenterTextAlignment];
+	[style setAlignment:NSTextAlignmentCenter];
 
 	NSColor* labelColor;
 	if([NSColor respondsToSelector:@selector(secondaryLabelColor)]) // MAC_OS_X_VERSION_10_10
@@ -177,7 +177,7 @@ static constexpr CGFloat LabelNameHeight = 15;
 	else	labelColor = [NSColor colorWithCalibratedWhite:0 alpha:0.5];
 
 	NSDictionary* labelAttributes = @{
-		NSFontAttributeName : [NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]],
+		NSFontAttributeName : [NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]],
 		NSForegroundColorAttributeName : labelColor,
 		NSParagraphStyleAttributeName  : style,
 	};

@@ -2034,7 +2034,7 @@ static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.p
 	fc.action          = @selector(fileChooserDidSelectItems:);
 	fc.path            = self.projectPath ?: self.untitledSavePath ?: NSHomeDirectory();
 
-	if(OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSFindPboard] current])
+	if(OakPasteboardEntry* entry = [[OakPasteboard pasteboardWithName:NSPasteboardNameFind] current])
 	{
 		std::string str = to_s(entry.string);
 		if(regexp::search("\\A.*?(\\.|/).*?:\\d+\\z", str))
@@ -2199,7 +2199,7 @@ static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.p
 		if(aMenu.propertiesToUpdate & NSMenuPropertyItemImage)
 			item.image = document.icon;
 		if(i == _selectedTabIndex)
-			[item setState:NSOnState];
+			[item setState:NSControlStateValueOn];
 		else if(document.isDocumentEdited)
 			[item setModifiedState:YES];
 		++i;
@@ -2258,7 +2258,7 @@ static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.p
 	else if([menuItem action] == @selector(moveFocus:))
 		[menuItem setTitle:self.window.firstResponder == self.textView ? @"Move Focus to File Browser" : @"Move Focus to Document"];
 	else if([menuItem action] == @selector(takeProjectPathFrom:))
-		[menuItem setState:[self.defaultProjectPath isEqualToString:[menuItem representedObject]] ? NSOnState : NSOffState];
+		[menuItem setState:[self.defaultProjectPath isEqualToString:[menuItem representedObject]] ? NSControlStateValueOn : NSControlStateValueOff];
 	else if([menuItem action] == @selector(performCloseOtherTabsXYZ:))
 		active = _documents.count > 1;
 	else if([menuItem action] == @selector(performCloseTabsToTheRight:))
@@ -2273,7 +2273,7 @@ static NSArray* const kObservedKeyPaths = @[ @"arrayController.arrangedObjects.p
 		{
 			active = [indexSet count] != 0;
 			if(active && [menuItem action] == @selector(toggleSticky:))
-				[menuItem setState:[self isDocumentSticky:_documents[indexSet.firstIndex]] ? NSOnState : NSOffState];
+				[menuItem setState:[self isDocumentSticky:_documents[indexSet.firstIndex]] ? NSControlStateValueOn : NSControlStateValueOff];
 		}
 	}
 
