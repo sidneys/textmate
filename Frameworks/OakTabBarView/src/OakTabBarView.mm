@@ -136,6 +136,11 @@ static NSString* const OakTabItemPasteboardType = @"com.macromates.TextMate.tabI
 		[self registerForDraggedTypes:@[ OakTabItemPasteboardType ]];
 		self.wantsLayer = YES;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:[NSUserDefaults standardUserDefaults]];
+
+		if (@available(macOS 10.14, *)) {
+			NSAppearance *appearance = [NSAppearance currentAppearance] ?: [NSApp effectiveAppearance];
+			[self setAppearance:[NSApp effectiveAppearance]];
+		}
 	}
 	return self;
 }
