@@ -396,6 +396,8 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 		[[self window] setOpaque:!theme->is_transparent() && !theme->gutter_styles().is_transparent()];
 		[textScrollView setBackgroundColor:[NSColor colorWithCGColor:theme->background(to_s(self.document.fileType))]];
 
+		[self printViewHierarchy:_window.contentView from:0];
+
 		if(theme->is_dark())
 		{
 			NSImage* whiteIBeamImage = [NSImage imageNamed:@"IBeam white" inSameBundleAsClass:[self class]];
