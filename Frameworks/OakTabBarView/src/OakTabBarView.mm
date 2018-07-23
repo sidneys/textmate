@@ -137,10 +137,12 @@ static NSString* const OakTabItemPasteboardType = @"com.macromates.TextMate.tabI
 		self.wantsLayer = YES;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:[NSUserDefaults standardUserDefaults]];
 
-		if (@available(macOS 10.14, *)) {
-			NSAppearance *appearance = [NSAppearance currentAppearance] ?: [NSApp effectiveAppearance];
-			[self setAppearance:[NSApp effectiveAppearance]];
-		}
+		NSVisualEffectView *effects = [[NSVisualEffectView alloc] initWithFrame:aFrame];
+		[effects setBlendingMode:NSVisualEffectBlendingModeWithinWindow];
+		[effects setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+		[effects setState:NSVisualEffectStateActive];
+		[self addSubview:effects positioned:NSWindowBelow relativeTo:nil];
+		[effects setMaterial:NSVisualEffectMaterialHeaderView];
 	}
 	return self;
 }
@@ -152,7 +154,8 @@ static NSString* const OakTabItemPasteboardType = @"com.macromates.TextMate.tabI
 
 	_addTabButton = [[NSButton alloc] initWithFrame:NSMakeRect(0, 2, 26, 20)];
 	OakSetAccessibilityLabel(_addTabButton, @"Create new tab");
-	[[_addTabButton cell] setBackgroundStyle:NSBackgroundStyleRaised];
+	[_addTabButton setWantsLayer:YES];
+	_addTabButton.layer.backgroundColor = [NSColor clearColor].CGColor;
 	_addTabButton.image      = [NSImage imageNamed:NSImageNameAddTemplate];
 	_addTabButton.bordered   = NO;
 	_addTabButton.buttonType = NSButtonTypeMomentaryChange;

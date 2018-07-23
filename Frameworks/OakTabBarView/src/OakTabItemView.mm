@@ -44,53 +44,6 @@ static NSString* kUserDefaultsTabItemLineBreakStyleKey = @"tabItemLineBreakStyle
 	return res;
 }
 
-- (NSDictionary*)mavericksImages
-{
-	NSDictionary* imageNames = @{
-		@"tabBar" : @{
-			@"AW_normal"   : @"AW InactiveTabBG",
-			@"IW_normal"   : @"IW InactiveTabBG",
-		},
-		@"tabItemSelected" : @{
-			@"AW_normal"   : @"AW ActiveTabFill",
-			@"IW_normal"   : @"IW ActiveTabFill",
-		},
-		@"leftTabCap" : @{
-			@"AW_normal"   : @"AW InactiveTabLeftCap",
-			@"IW_normal"   : @"IW InactiveTabLeftCap",
-		},
-		@"leftTabCapSelected" : @{
-			@"AW_normal"   : @"AW ActiveTabLeftCap",
-			@"IW_normal"   : @"IW ActiveTabLeftCap",
-		},
-		@"rightTabCap" : @{
-			@"AW_normal"   : @"AW InactiveTabRightCap",
-			@"IW_normal"   : @"IW InactiveTabRightCap",
-		},
-		@"rightTabCapSelected" : @{
-			@"AW_normal"   : @"AW ActiveTabRightCap",
-			@"IW_normal"   : @"IW ActiveTabRightCap",
-		},
-		@"closeButton" : @{
-			@"AW_normal"   : @"AW ActiveTabClose",
-			@"AW_pressed"  : @"AW ActiveTabClosePressed",
-			@"AW_rollover" : @"AW ActiveTabCloseRollover",
-			@"IW_normal"   : @"IW ActiveTabClose",
-			@"IW_pressed"  : @"IW ActiveTabClosePressed",
-			@"IW_rollover" : @"IW ActiveTabCloseRollover",
-		},
-		@"closeButtonModified" : @{
-			@"AW_normal"   : @"TabClose_Modified",
-			@"AW_pressed"  : @"TabClose_ModifiedPressed",
-			@"AW_rollover" : @"TabClose_ModifiedRollover",
-		},
-		@"overflowButton" : @{
-			@"AW_normal"   : @"TabOverflowTemplate",
-		},
-	};
-	return [self imagesForNames:imageNames];
-}
-
 - (NSDictionary*)yosemiteImages
 {
 	NSDictionary* imageNames = @{
@@ -145,39 +98,18 @@ static NSString* kUserDefaultsTabItemLineBreakStyleKey = @"tabItemLineBreakStyle
 		_activeTabTextStyles = @{
 			NSParagraphStyleAttributeName  : parStyle,
 			NSFontAttributeName            : [NSFont systemFontOfSize:11],
-			NSForegroundColorAttributeName : [NSColor colorWithCalibratedWhite:0.2 alpha:1],
+			NSForegroundColorAttributeName : [NSColor tertiaryLabelColor],
 		}.mutableCopy;
 
 		_inactiveTabTextStyles = _activeTabTextStyles.mutableCopy;
-		_inactiveTabTextStyles[NSForegroundColorAttributeName] = [NSColor colorWithCalibratedWhite:0.5 alpha:1];
+		_inactiveTabTextStyles[NSForegroundColorAttributeName] = [NSColor quaternaryLabelColor];
 
-		// MAC_OS_X_VERSION_10_10
-		if([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:{ 10, 10, 0 }])
-		{
-			_selectedTabTextStyles = _activeTabTextStyles.mutableCopy;
-			_selectedTabTextStyles[NSForegroundColorAttributeName] = [NSColor blackColor];
+		_selectedTabTextStyles = _activeTabTextStyles.mutableCopy;
+		_selectedTabTextStyles[NSForegroundColorAttributeName] = [NSColor windowFrameTextColor];
 
-			_images = [self yosemiteImages];
-			_leftPadding  = -1;
-			_rightPadding = 0;
-		}
-		else
-		{
-			_selectedTabTextStyles = _activeTabTextStyles.copy;
-
-			_images = [self mavericksImages];
-			_leftPadding  = 0;
-			_rightPadding = -5;
-
-			NSShadow* shadow = [NSShadow new];
-			[shadow setShadowColor:[NSColor colorWithCalibratedWhite:1 alpha:0.5]];
-			[shadow setShadowOffset:NSMakeSize(0, -1)];
-			[shadow setShadowBlurRadius:1];
-
-			NSDictionary* fontStyles = @{ NSShadowAttributeName : shadow, NSFontAttributeName : [NSFont boldSystemFontOfSize:11] };
-			[_activeTabTextStyles addEntriesFromDictionary:fontStyles];
-			[_inactiveTabTextStyles addEntriesFromDictionary:fontStyles];
-		}
+		_images = [self yosemiteImages];
+		_leftPadding  = -1;
+		_rightPadding = 0;
 
 		NSImage* rightCapImage = _images[@"rightTabCap"][@"AW_normal"];
 		_tabViewSpacing = rightCapImage ? -rightCapImage.size.width : 0;
@@ -200,21 +132,22 @@ static NSString* kUserDefaultsTabItemLineBreakStyleKey = @"tabItemLineBreakStyle
 	aButton.inactiveRolloverImage = images[@"IW_rollover"];
 
 	if (@available(macOS 10.14, *)) {
+		[aButton setWantsLayer:YES];
+		aButton.layer.backgroundColor = [NSColor clearColor].CGColor;
+
 		[[aButton cell] setBackgroundStyle:NSBackgroundStyleNormal];
 
 		aButton.regularImage  = [NSImage imageNamed:@"Transparent"];
 		aButton.pressedImage  = [NSImage imageNamed:@"Transparent"];
-		aButton.rolloverImage = [NSImage imageNamed:@"Transparent"];
 		aButton.inactiveRegularImage  = [NSImage imageNamed:@"Transparent"];
 		aButton.inactivePressedImage  = [NSImage imageNamed:@"Transparent"];
-		aButton.inactiveRolloverImage = [NSImage imageNamed:@"Transparent"];
 
-		NSVisualEffectView *effects = [[NSVisualEffectView alloc] initWithFrame:[aButton bounds]];
-		[effects setBlendingMode:NSVisualEffectBlendingModeWithinWindow];
-		[effects setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-		[effects setState:NSVisualEffectStateActive];
-		[effects setMaterial:NSVisualEffectMaterialTitlebar];
-		[aButton addSubview:effects positioned:NSWindowBelow relativeTo:nil];
+		//NSVisualEffectView *effects = [[NSVisualEffectView alloc] initWithFrame:[aButton bounds]];
+		//[effects setBlendingMode:NSVisualEffectBlendingModeWithinWindow];
+		//[effects setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+		//[effects setState:NSVisualEffectStateActive];
+		//[effects setMaterial:NSVisualEffectMaterialTitlebar];
+		//[aButton addSubview:effects positioned:NSWindowBelow relativeTo:nil];
 	}
 }
 
@@ -224,15 +157,18 @@ static NSString* kUserDefaultsTabItemLineBreakStyleKey = @"tabItemLineBreakStyle
 	aView.inactiveBackgroundImage = _images[aState][@"IW_normal"];
 
 	if (@available(macOS 10.14, *)) {
+		[aView setWantsLayer:YES];
+		aView.layer.backgroundColor = [NSColor clearColor].CGColor;
+
 		aView.activeBackgroundImage   = [NSImage imageNamed:@"Transparent"];
 		aView.inactiveBackgroundImage = [NSImage imageNamed:@"Transparent"];
 
-		NSVisualEffectView *effects = [[NSVisualEffectView alloc] initWithFrame:[aView bounds]];
-		[effects setBlendingMode:NSVisualEffectBlendingModeWithinWindow];
-		[effects setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-		[effects setState:NSVisualEffectStateActive];
-		[aView addSubview:effects positioned:NSWindowBelow relativeTo:nil];
-		[effects setMaterial:NSVisualEffectMaterialTitlebar];
+		//NSVisualEffectView *effects = [[NSVisualEffectView alloc] initWithFrame:[aView bounds]];
+		//[effects setBlendingMode:NSVisualEffectBlendingModeWithinWindow];
+		//[effects setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+		//[effects setState:NSVisualEffectStateActive];
+		//[aView addSubview:effects positioned:NSWindowBelow relativeTo:nil];
+		//[effects setMaterial:NSVisualEffectMaterialTitlebar];
 	}
 }
 
@@ -311,6 +247,13 @@ static NSString* kUserDefaultsTabItemLineBreakStyleKey = @"tabItemLineBreakStyle
 
 		[self updateStyle];
 		OakAddAutoLayoutViewsToSuperview(@[ _leftCapView, _rightCapView, _textField, _closeButton ], self);
+
+		NSVisualEffectView *effects = [[NSVisualEffectView alloc] initWithFrame:aRect];
+		[effects setBlendingMode:NSVisualEffectBlendingModeWithinWindow];
+		[effects setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+		[effects setState:NSVisualEffectStateActive];
+		[self addSubview:effects positioned:NSWindowBelow relativeTo:nil];
+		[effects setMaterial:NSVisualEffectMaterialTitlebar];
 	}
 	return self;
 }
