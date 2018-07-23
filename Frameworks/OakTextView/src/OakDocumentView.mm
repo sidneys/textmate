@@ -393,8 +393,25 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 {
 	if(theme_ptr theme = _textView.theme)
 	{
-		[[self window] setOpaque:!theme->is_transparent() && !theme->gutter_styles().is_transparent()];
-		[textScrollView setBackgroundColor:[NSColor colorWithCGColor:theme->background(to_s(self.document.fileType))]];
+		//[[self window] setOpaque:!theme->is_transparent() && !theme->gutter_styles().is_transparent()];
+		//[textScrollView setBackgroundColor:[NSColor colorWithCGColor:theme->background(to_s(self.document.fileType))]];
+
+		//[[self window] setOpaque:NO];
+		//[[self window] setBackgroundColor:[NSColor colorWithCalibratedRed:0.0 green:0 blue:1.0 alpha:0.0]];
+		//[[self window] setAppearance: [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
+		//[[self window] setHasShadow:NO];
+
+		//[textScrollView setBackgroundColor:[NSColor colorWithCalibratedRed:1.0 green:0 blue:0 alpha:0.25]];
+		
+		[_textView setWantsLayer:YES];
+		_textView.layer.backgroundColor = [NSColor clearColor].CGColor;
+		
+		//[gutterView setBackgroundColor:[NSColor colorWithCalibratedRed:0 green:2.0 blue:0 alpha:0.25]];
+
+		NSLog(@"[DEBUG] window.backgroundColor: %@",  [self window].backgroundColor);
+		NSLog(@"[DEBUG] gutterView.backgroundColor: %@",  gutterView.backgroundColor);
+		NSLog(@"[DEBUG] textScrollView.backgroundColor: %@", textScrollView.backgroundColor);
+		NSLog(@"[DEBUG] _textView.layer.backgroundColor: %@", _textView.layer.backgroundColor);
 
 		[self printViewHierarchy:_window.contentView from:0];
 
