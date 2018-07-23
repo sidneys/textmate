@@ -341,6 +341,52 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 		[oldDocument close];
 }
 
+- (void)printViewHierarchy:(NSView*)v at:(int)level
+{
+	// Class
+	NSString* indent = @"";
+	NSString* space = @"";
+	for (int i = 0; i < level; i++) {
+		indent = [indent stringByAppendingString:@"└───"];
+		space = [space stringByAppendingString:@"    "];
+	}
+	NSLog(@"[DEBUG] %@%@ %@", indent, [v class], NSStringFromRect(v.frame));
+
+	// Colors
+	NSColor* color;
+
+	// Lookup NSTextfield backgroundColor
+	if ([v isKindOfClass:[NSTextField class]]) {
+		NSTextField * textfield = (NSTextField *)v;
+		if ([textfield respondsToSelector:NSSelectorFromString(@"backgroundColor")]) {
+			color = textfield.backgroundColor;
+			NSLog(@"[DEBUG] %@VALUE: '%@'", space, [textfield stringValue]);
+		}
+	}
+
+	// Lookup NSView backgroundColor
+	if ((v.wantsLayer == true) && (v.layer.backgroundColor != nil)) {
+		color = [NSColor colorWithCGColor:v.layer.backgroundColor];
+	}
+
+	if (color != nil) {
+		color = [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+		NSMutableString *colorString = [color.description stringByReplacingOccurrencesOfString: @"Generic RGB colorspace" withString:@""];
+		colorString = [colorString stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+		if (![colorString isEqualToString:@"0 0 0 0"]) {
+			NSLog(@"[DEBUG] %@BACKGROUND COLOR: %@", space, colorString);
+		}
+	}
+
+	// Recurse
+	if (v.subviews != nil) {
+		for (NSView* s in v.subviews) {
+				[self printViewHierarchy:s at:level + 1];
+		}
+	}
+}
+
 - (void)updateStyle
 {
 	if(theme_ptr theme = _textView.theme)
