@@ -12,6 +12,7 @@ PUBLIC @interface OakDocumentView : NSView
 
 - (void)setThemeWithUUID:(NSString*)themeUUID;
 
+- (void)printViewHierarchy:(NSView*)v from:(int)level;
 - (void)addAuxiliaryView:(NSView*)aView atEdge:(NSRectEdge)anEdge;
 - (void)removeAuxiliaryView:(NSView*)aView;
 

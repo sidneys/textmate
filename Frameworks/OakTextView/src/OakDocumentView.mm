@@ -262,6 +262,8 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 		_textView.font = newFont;
 		[self updateGutterViewFont:self];
 	}
+	
+	[self printViewHierarchy:_window.contentView at:0];
 }
 
 - (void)observeValueForKeyPath:(NSString*)aKeyPath ofObject:(id)observableController change:(NSDictionary*)changeDictionary context:(void*)userData
@@ -341,7 +343,7 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 		[oldDocument close];
 }
 
-- (void)printViewHierarchy:(NSView*)v at:(int)level
+- (void)printViewHierarchy:(NSView*)v from:(int)level
 {
 	// Class
 	NSString* indent = @"";
@@ -382,7 +384,7 @@ static NSString* const kFoldingsColumnIdentifier  = @"foldings";
 	// Recurse
 	if (v.subviews != nil) {
 		for (NSView* s in v.subviews) {
-				[self printViewHierarchy:s at:level + 1];
+				[self printViewHierarchy:s from: (level + 1)];
 		}
 	}
 }
